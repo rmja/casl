@@ -135,7 +135,7 @@ To check permissions in any template you can use `AbleValueConverter`:
 Or with **deprecated** `CanPipe`:
 
 ```html
-<div *ngIf="'Post' | can: 'create'">
+<div if.bind="'Post' | can: 'create'">
   <a click.trigger="createPost()">Add Post</a>
 </div>
 ```
@@ -189,14 +189,15 @@ And register this class in Aurelia's container:
 import { AppAbility } from './services/AppAbility';
 
 export function configure(aurelia) {
+  const ability = new AppAbility();
+    aurelia.container.registerInstance(PureAbility, ability);
+    aurelia.container.registerInstance(AppAbility, ability);
+
   aurelia.use
     .standardConfiguration()
     .developmentLogging()
     .plugin('@casl/aurelia'); // <-- add plugin
 
-  const ability = new AppAbility();
-  aurelia.container.registerInstance(PureAbility, ability);
-  aurelia.container.registerInstance(AppAbility, ability);
   aurelia.start().then(() => aurelia.setRoot());
 }
 ```
